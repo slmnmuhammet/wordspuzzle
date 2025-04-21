@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<style>
+  .option {
+  background-color: #ffffff;
+  color: #000000; /* Yazı hep siyah */
+  padding: 10px;
+  margin: 5px 0;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option:hover {
+  background-color: #e6f7ff;
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0, 153, 255, 0.3);
+}
+
+.option.wrong {
+  background-color: #ffcccc !important;
+  border-color: #ff4d4d;
+  animation: shake 0.3s;
+  color: #000000 !important; /* Yazı siyah kalır */
+}
+
+.option.correct {
+  background-color: #ccffcc !important;
+  border-color: #33cc33;
+  animation: pop 0.3s;
+  color: #000000 !important; /* Yazı siyah kalır */
+}
+
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+</style>
+
+  <meta charset="UTF-8" />
+  <title>Fransızca Kelime Testi</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #C0C0C0;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fade-in { animation: fadeIn 0.6s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container { display: flex; flex-direction: column; align-items: center; }
+
+    .word-box {
+      background-color: #fff;
+      color: #000;
+      padding: 25px 50px;
+      font-size: 36px;
+      margin-bottom: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .sound-button {
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 28px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .option {
+      background-color: #fff;
+      color: #000;
+      padding: 18px 30px;
+      font-size: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .option.correct { background-color: #4CAF50; color: white; }
+    .option.wrong { background-color: #f44336; color: white; }
+    .option.disabled { pointer-events: none; opacity: 0.6; }
+
+    button {
+  padding: 14px 32px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 14px 32px;
+  font-size: 18px;
+  background-color: #ffffff;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+
+    <style>
+  .option {
+    background-color: #ffffff;
+    color: #000000; /* Yazı her zaman siyah */
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .option:hover {
+    background-color: #e6f7ff;
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 153, 255, 0.3);
+  }
+
+  .option.wrong {
+    background-color: #ffcccc !important;
+    border-color: #ff4d4d;
+    animation: shake 0.3s;
+  }
+
+  .option.correct {
+    background-color: #ccffcc !important;
+    border-color: #33cc33;
+    animation: pop 0.3s;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  #newQuestionBtn {
+  display: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 8px rgba(0, 128, 0, 0.25);
+}
+
+#newQuestionBtn:hover {
+  transform: scale(1.08); /* Hafif büyüme */
+  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.4); /* Gölge efekti */
+}
+
+
+  @keyframes bounce {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-3px); }
+    100% { transform: translateY(0); }
+  }
+</style>
+
+
+<style>
+  #wordCountDisplay {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #cceeff, #99ddff);
+  box-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
+  animation: pulse 2s infinite ease-in-out;
+
+  /* Sayıyı ortala */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #004466;
+
+  /* Hafif yukarı çek */
+  margin-top: -20px;
+}
+
+
+
+
+  @keyframes pulse {
+    0%   { transform: scale(1);   box-shadow: 0 0 8px rgba(0, 153, 255, 0.4); }
+    50%  { transform: scale(1.1); box-shadow: 0 0 15px rgba(0, 153, 255, 0.7); }
+    100% { transform: scale(1);   box-shadow: 0 0 8px rgba(0, 153, 255, 0.4); }
+  }
+</style>
+
+
+<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+
+  <!-- 🈯️ Dil Yönü Seçimi (En üstte) -->
+<select id="languageDirectionSelect" onchange="onLanguageDirectionChange()" style="padding: 10px; font-size: 16px; height: 40px;">
+  <option value="fr-tr">Fransızca → Türkçe</option>
+  <option value="en-fr">İngilizce → Fransızca</option>
+  <option value="en-tr">İngilizce → Türkçe</option>
+</select>
+
+
+  <!-- 📘 Seviye Seçimi -->
+  <select id="levelSelect" onchange="onLevelChange()" style="padding: 10px; font-size: 16px; height: 40px;">
+    <option value="">Tüm Seviyeler</option>
+    <option value="A1">A1</option>
+    <option value="A2">A2</option>
+    <option value="B1">B1</option>
+    <option value="B2">B2</option>
+    <option value="C1">C1</option>
+    <option value="C2">C2</option>
+  </select>
+
+  <!-- 📚 Kategori Seçimi -->
+  <select id="categorySelect" onchange="onCategoryChange()" style="padding: 10px; font-size: 16px; height: 40px;">
+    <option value="">Tüm Kategoriler</option>
+    <option value="noun">Noun (İsim)</option>
+    <option value="verb">Verb (Fiil)</option>
+    <option value="auxiliary verb">Auxiliary Verb (Yardımcı Fiil)</option>
+    <option value="modal verb">Modal Verb (Kip Belirteci)</option>
+    <option value="adjective">Adjective (Sıfat)</option>
+    <option value="adverb">Adverb (Zarf)</option>
+    <option value="conjunction">Conjunction (Bağlaç)</option>
+    <option value="preposition">Preposition (Edat)</option>
+    <option value="pronoun">Pronoun (Zamir)</option>
+    <option value="determiner">Determiner (Belirteç)</option>
+  </select>
+
+  <!-- 🔢 Kelime Sayacı -->
+  <div id="wordCountDisplay"></div>
+
+</div>
+
+
+
+
+
+  <!-- Fransızca kelime kutusu -->
+  <div class="word-box fade-in" id="wordBox">
+    <span id="frWord">...</span>
+    <span class="sound-button" onclick="playPronunciation(currentWord.fr)">🔊</span>
+  </div>
+
+  <!-- Şıklar -->
+  <div class="options fade-in" id="options"></div>
+
+  <!-- Yeni Soru Butonu -->
+  <button id="newQuestionBtn" onclick="newQuestion()">Yeni Soru</button>
+</div>
+
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+<audio id="pronounceAudio"></audio>
+
+<script>
+const words = [
+  { en: "a", fr: "un/une", tr: "bir", level: "A1", cat: "determiner" },
+  { en: "about", fr: "à propos de", tr: "hakkında", level: "A1", cat: "preposition" },
+  { en: "above", fr: "au-dessus de", tr: "üzerinde", level: "A1", cat: "preposition" },
+  { en: "across", fr: "à travers", tr: "karşıdan", level: "A1", cat: "preposition" },
+  { en: "action", fr: "action", tr: "eylem", level: "A1", cat: "noun" },
+  { en: "activity", fr: "activité", tr: "aktivite", level: "A1", cat: "noun" },
+  { en: "actor", fr: "acteur", tr: "aktör", level: "A1", cat: "noun" },
+  { en: "actress", fr: "actrice", tr: "aktris", level: "A1", cat: "noun" },
+  { en: "add", fr: "ajouter", tr: "eklemek", level: "A1", cat: "verb" },
+  { en: "address", fr: "adresse", tr: "adres", level: "A1", cat: "noun" },
+  { en: "adult", fr: "adulte", tr: "yetişkin", level: "A1", cat: "noun" },
+  { en: "advice", fr: "conseil", tr: "tavsiye", level: "A1", cat: "noun" },
+  { en: "afraid", fr: "peur", tr: "korkmuş", level: "A1", cat: "adjective" },
+  { en: "after", fr: "après", tr: "sonra", level: "A1", cat: "preposition" },
+  { en: "afternoon", fr: "après-midi", tr: "öğleden sonra", level: "A1", cat: "noun" },
+  { en: "again", fr: "encore", tr: "tekrar", level: "A1", cat: "adverb" },
+  { en: "age", fr: "âge", tr: "yaş", level: "A1", cat: "noun" },
+  { en: "ago", fr: "il y a", tr: "önce", level: "A1", cat: "adverb" },
+  { en: "agree", fr: "être d'accord", tr: "katılmak", level: "A1", cat: "verb" },
+  { en: "air", fr: "air", tr: "hava", level: "A1", cat: "noun" },
+  { en: "airport", fr: "aéroport", tr: "havaalanı", level: "A1", cat: "noun" },
+  { en: "all", fr: "tout", tr: "hepsi", level: "A1", cat: "determiner" },
+  { en: "also", fr: "aussi", tr: "ayrıca", level: "A1", cat: "adverb" },
+  { en: "always", fr: "toujours", tr: "her zaman", level: "A1", cat: "adverb" },
+  { en: "amazing", fr: "incroyable", tr: "şaşırtıcı", level: "A1", cat: "adjective" },
+  { en: "and", fr: "et", tr: "ve", level: "A1", cat: "conjunction" },
+  { en: "angry", fr: "fâché", tr: "kızgın", level: "A1", cat: "adjective" },
+  { en: "animal", fr: "animal", tr: "hayvan", level: "A1", cat: "noun" },
+  { en: "another", fr: "un autre", tr: "başka bir", level: "A1", cat: "determiner" },
+  { en: "answer", fr: "réponse", tr: "cevap", level: "A1", cat: "noun" },
+  { en: "any", fr: "n'importe quel", tr: "herhangi bir", level: "A1", cat: "determiner" },
+  { en: "anyone", fr: "n'importe qui", tr: "herhangi biri", level: "A1", cat: "pronoun" },
+  { en: "anything", fr: "n'importe quoi", tr: "herhangi bir şey", level: "A1", cat: "pronoun" },
+  { en: "apartment", fr: "appartement", tr: "daire", level: "A1", cat: "noun" },
+  { en: "apple", fr: "pomme", tr: "elma", level: "A1", cat: "noun" },
+  { en: "April", fr: "avril", tr: "nisan", level: "A1", cat: "noun" },
+  { en: "area", fr: "zone", tr: "alan", level: "A1", cat: "noun" },
+  { en: "arm", fr: "bras", tr: "kol", level: "A1", cat: "noun" },
+  { en: "around", fr: "autour de", tr: "etrafında", level: "A1", cat: "preposition" },
+  { en: "arrive", fr: "arriver", tr: "varmak", level: "A1", cat: "verb" },
+  { en: "art", fr: "art", tr: "sanat", level: "A1", cat: "noun" },
+  { en: "article", fr: "article", tr: "makale", level: "A1", cat: "noun" },
+  { en: "artist", fr: "artiste", tr: "sanatçı", level: "A1", cat: "noun" },
+  { en: "as", fr: "comme", tr: "olarak", level: "A1", cat: "preposition" },
+  { en: "ask", fr: "demander", tr: "sormak", level: "A1", cat: "verb" },
+  { en: "at", fr: "à", tr: "-de / -da", level: "A1", cat: "preposition" },
+  { en: "August", fr: "août", tr: "ağustos", level: "A1", cat: "noun" },
+  { en: "aunt", fr: "tante", tr: "hala / teyze", level: "A1", cat: "noun" },
+  { en: "autumn", fr: "automne", tr: "sonbahar", level: "A1", cat: "noun" },
+  { en: "away", fr: "loin", tr: "uzakta", level: "A1", cat: "adverb" },
+  { en: "baby", fr: "bébé", tr: "bebek", level: "A1", cat: "noun" },
+  { en: "back", fr: "dos", tr: "sırt / geri", level: "A1", cat: "noun" },
+  { en: "bad", fr: "mauvais", tr: "kötü", level: "A1", cat: "adjective" },
+  { en: "bag", fr: "sac", tr: "çanta", level: "A1", cat: "noun" },
+  { en: "ball", fr: "balle", tr: "top", level: "A1", cat: "noun" },
+  { en: "banana", fr: "banane", tr: "muz", level: "A1", cat: "noun" },
+  { en: "band", fr: "groupe", tr: "müzik grubu", level: "A1", cat: "noun" },
+  { en: "bank", fr: "banque", tr: "banka", level: "A1", cat: "noun" },
+  { en: "bath", fr: "bain", tr: "banyo", level: "A1", cat: "noun" },
+
+{ en: "bathroom", fr: "salle de bain", tr: "banyo", level: "A1", cat: "noun" },
+  { en: "be", fr: "être", tr: "olmak", level: "A1", cat: "verb" },
+  { en: "beach", fr: "plage", tr: "plaj", level: "A1", cat: "noun" },
+  { en: "beautiful", fr: "beau / belle", tr: "güzel", level: "A1", cat: "adjective" },
+  { en: "because", fr: "parce que", tr: "çünkü", level: "A1", cat: "conjunction" },
+  { en: "become", fr: "devenir", tr: "olmak / haline gelmek", level: "A1", cat: "verb" },
+  { en: "bed", fr: "lit", tr: "yatak", level: "A1", cat: "noun" },
+  { en: "bedroom", fr: "chambre", tr: "yatak odası", level: "A1", cat: "noun" },
+  { en: "beer", fr: "bière", tr: "bira", level: "A1", cat: "noun" },
+  { en: "before", fr: "avant", tr: "önce", level: "A1", cat: "preposition" },
+  { en: "begin", fr: "commencer", tr: "başlamak", level: "A1", cat: "verb" },
+  { en: "beginning", fr: "début", tr: "başlangıç", level: "A1", cat: "noun" },
+  { en: "behind", fr: "derrière", tr: "arkasında", level: "A1", cat: "preposition" },
+  { en: "believe", fr: "croire", tr: "inanmak", level: "A1", cat: "verb" },
+  { en: "below", fr: "en dessous", tr: "altında", level: "A1", cat: "preposition" },
+  { en: "best", fr: "le meilleur", tr: "en iyi", level: "A1", cat: "adjective" },
+  { en: "better", fr: "mieux / meilleur", tr: "daha iyi", level: "A1", cat: "adjective" },
+  { en: "between", fr: "entre", tr: "arasında", level: "A1", cat: "preposition" },
+  { en: "bicycle", fr: "vélo", tr: "bisiklet", level: "A1", cat: "noun" },
+  { en: "big", fr: "grand", tr: "büyük", level: "A1", cat: "adjective" },
+  { en: "bike", fr: "vélo", tr: "bisiklet", level: "A1", cat: "noun" },
+  { en: "bill", fr: "addition / facture", tr: "fatura", level: "A1", cat: "noun" },
+  { en: "bird", fr: "oiseau", tr: "kuş", level: "A1", cat: "noun" },
+  { en: "birthday", fr: "anniversaire", tr: "doğum günü", level: "A1", cat: "noun" },
+  { en: "black", fr: "noir", tr: "siyah", level: "A1", cat: "adjective" },
+  { en: "blog", fr: "blog", tr: "blog", level: "A1", cat: "noun" },
+  { en: "blonde", fr: "blond / blonde", tr: "sarışın", level: "A1", cat: "adjective" },
+  { en: "blue", fr: "bleu", tr: "mavi", level: "A1", cat: "adjective" },
+  { en: "boat", fr: "bateau", tr: "tekne", level: "A1", cat: "noun" },
+  { en: "body", fr: "corps", tr: "vücut", level: "A1", cat: "noun" },
+  { en: "book", fr: "livre", tr: "kitap", level: "A1", cat: "noun" },
+  { en: "boot", fr: "botte", tr: "çizme / bot", level: "A1", cat: "noun" },
+  { en: "bored", fr: "ennuyé", tr: "sıkılmış", level: "A1", cat: "adjective" },
+  { en: "boring", fr: "ennuyeux", tr: "sıkıcı", level: "A1", cat: "adjective" },
+  { en: "born", fr: "né", tr: "doğmak", level: "A1", cat: "verb" },
+  { en: "both", fr: "tous les deux", tr: "her ikisi", level: "A1", cat: "determiner" },
+  { en: "bottle", fr: "bouteille", tr: "şişe", level: "A1", cat: "noun" },
+  { en: "box", fr: "boîte", tr: "kutu", level: "A1", cat: "noun" },
+  { en: "boy", fr: "garçon", tr: "erkek çocuk", level: "A1", cat: "noun" },
+  { en: "boyfriend", fr: "petit ami", tr: "erkek arkadaş", level: "A1", cat: "noun" },
+  { en: "bread", fr: "pain", tr: "ekmek", level: "A1", cat: "noun" },
+  { en: "break", fr: "pause / casser", tr: "kırmak / mola", level: "A1", cat: "verb" },
+  { en: "breakfast", fr: "petit déjeuner", tr: "kahvaltı", level: "A1", cat: "noun" },
+  { en: "bring", fr: "apporter", tr: "getirmek", level: "A1", cat: "verb" },
+  { en: "brother", fr: "frère", tr: "erkek kardeş", level: "A1", cat: "noun" },
+  { en: "brown", fr: "marron", tr: "kahverengi", level: "A1", cat: "adjective" },
+  { en: "build", fr: "construire", tr: "inşa etmek", level: "A1", cat: "verb" },
+  { en: "building", fr: "bâtiment", tr: "bina", level: "A1", cat: "noun" },
+  { en: "bus", fr: "bus", tr: "otobüs", level: "A1", cat: "noun" },
+  { en: "business", fr: "entreprise / affaire", tr: "iş / işletme", level: "A1", cat: "noun" },
+  { en: "busy", fr: "occupé", tr: "meşgul", level: "A1", cat: "adjective" },
+  { en: "but", fr: "mais", tr: "ama", level: "A1", cat: "conjunction" },
+  { en: "butter", fr: "beurre", tr: "tereyağı", level: "A1", cat: "noun" },
+  { en: "buy", fr: "acheter", tr: "satın almak", level: "A1", cat: "verb" },
+  { en: "by", fr: "par", tr: "-ile / tarafından", level: "A1", cat: "preposition" },
+  { en: "bye", fr: "au revoir", tr: "güle güle", level: "A1", cat: "exclamation" },
+  { en: "cafe", fr: "café", tr: "kafe", level: "A1", cat: "noun" },
+  { en: "cake", fr: "gâteau", tr: "pasta", level: "A1", cat: "noun" },
+  { en: "call", fr: "appeler / appel", tr: "aramak / çağrı", level: "A1", cat: "verb" },
+  { en: "camera", fr: "appareil photo", tr: "kamera", level: "A1", cat: "noun" },
+  { en: "can", fr: "pouvoir", tr: "-ebilmek", level: "A1", cat: "modal verb" },
+
+  { en: "cannot", fr: "ne peut pas", tr: "yapamaz", level: "A1", cat: "modal verb" },
+  { en: "capital", fr: "capitale", tr: "başkent", level: "A1", cat: "noun" },
+  { en: "car", fr: "voiture", tr: "araba", level: "A1", cat: "noun" },
+  { en: "card", fr: "carte", tr: "kart", level: "A1", cat: "noun" },
+  { en: "career", fr: "carrière", tr: "kariyer", level: "A1", cat: "noun" },
+  { en: "carrot", fr: "carotte", tr: "havuç", level: "A1", cat: "noun" },
+  { en: "carry", fr: "porter", tr: "taşımak", level: "A1", cat: "verb" },
+  { en: "cat", fr: "chat", tr: "kedi", level: "A1", cat: "noun" },
+  { en: "CD", fr: "CD", tr: "CD", level: "A1", cat: "noun" },
+  { en: "cent", fr: "centime", tr: "kuruş / sent", level: "A1", cat: "noun" },
+  { en: "centre", fr: "centre", tr: "merkez", level: "A1", cat: "noun" },
+  { en: "century", fr: "siècle", tr: "yüzyıl", level: "A1", cat: "noun" },
+  { en: "chair", fr: "chaise", tr: "sandalye", level: "A1", cat: "noun" },
+  { en: "change", fr: "changer / changement", tr: "değiştirmek / değişim", level: "A1", cat: "verb" },
+  { en: "chart", fr: "graphique", tr: "grafik", level: "A1", cat: "noun" },
+  { en: "cheap", fr: "bon marché", tr: "ucuz", level: "A1", cat: "adjective" },
+  { en: "check", fr: "vérifier", tr: "kontrol etmek", level: "A1", cat: "verb" },
+  { en: "cheese", fr: "fromage", tr: "peynir", level: "A1", cat: "noun" },
+  { en: "chicken", fr: "poulet", tr: "tavuk", level: "A1", cat: "noun" },
+  { en: "child", fr: "enfant", tr: "çocuk", level: "A1", cat: "noun" },
+  { en: "chocolate", fr: "chocolat", tr: "çikolata", level: "A1", cat: "noun" },
+  { en: "choose", fr: "choisir", tr: "seçmek", level: "A1", cat: "verb" },
+  { en: "cinema", fr: "cinéma", tr: "sinema", level: "A1", cat: "noun" },
+  { en: "city", fr: "ville", tr: "şehir", level: "A1", cat: "noun" },
+  { en: "class", fr: "classe", tr: "sınıf", level: "A1", cat: "noun" },
+  { en: "classroom", fr: "salle de classe", tr: "derslik", level: "A1", cat: "noun" },
+  { en: "clean", fr: "propre / nettoyer", tr: "temiz / temizlemek", level: "A1", cat: "verb" },
+  { en: "climb", fr: "grimper", tr: "tırmanmak", level: "A1", cat: "verb" },
+  { en: "clock", fr: "horloge", tr: "saat", level: "A1", cat: "noun" },
+  { en: "close", fr: "fermer", tr: "kapatmak", level: "A1", cat: "verb" },
+  { en: "clothes", fr: "vêtements", tr: "kıyafetler", level: "A1", cat: "noun" },
+  { en: "club", fr: "club", tr: "kulüp", level: "A1", cat: "noun" },
+  { en: "coat", fr: "manteau", tr: "mont", level: "A1", cat: "noun" },
+  { en: "coffee", fr: "café", tr: "kahve", level: "A1", cat: "noun" },
+  { en: "cold", fr: "froid / rhume", tr: "soğuk", level: "A1", cat: "adjective" },
+  { en: "college", fr: "université", tr: "üniversite", level: "A1", cat: "noun" },
+  { en: "colour", fr: "couleur", tr: "renk", level: "A1", cat: "noun" },
+  { en: "come", fr: "venir", tr: "gelmek", level: "A1", cat: "verb" },
+  { en: "common", fr: "commun", tr: "yaygın", level: "A1", cat: "adjective" },
+  { en: "company", fr: "entreprise", tr: "şirket", level: "A1", cat: "noun" },
+  { en: "compare", fr: "comparer", tr: "karşılaştırmak", level: "A1", cat: "verb" },
+  { en: "complete", fr: "compléter / complet", tr: "tamamlamak / tam", level: "A1", cat: "verb" },
+  { en: "computer", fr: "ordinateur", tr: "bilgisayar", level: "A1", cat: "noun" },
+  { en: "concert", fr: "concert", tr: "konser", level: "A1", cat: "noun" },
+  { en: "conversation", fr: "conversation", tr: "konuşma / diyalog", level: "A1", cat: "noun" },
+  { en: "cook", fr: "cuisiner", tr: "yemek yapmak", level: "A1", cat: "verb" },
+  { en: "cooking", fr: "cuisine", tr: "yemek pişirme", level: "A1", cat: "noun" },
+  { en: "cool", fr: "cool / frais", tr: "havalı / serin", level: "A1", cat: "adjective" },
+  { en: "correct", fr: "correct / corriger", tr: "doğru / düzeltmek", level: "A1", cat: "adjective" },
+  { en: "cost", fr: "coût / coûter", tr: "maliyet / mal olmak", level: "A1", cat: "noun" },
+  { en: "could", fr: "pourrait", tr: "-ebilirdi", level: "A1", cat: "modal verb" },
+  { en: "country", fr: "pays", tr: "ülke", level: "A1", cat: "noun" },
+  { en: "course", fr: "cours", tr: "kurs", level: "A1", cat: "noun" },
+  { en: "cousin", fr: "cousin(e)", tr: "kuzen", level: "A1", cat: "noun" },
+  { en: "cow", fr: "vache", tr: "inek", level: "A1", cat: "noun" },
+  { en: "cream", fr: "crème", tr: "krema", level: "A1", cat: "noun" },
+  { en: "create", fr: "créer", tr: "yaratmak", level: "A1", cat: "verb" },
+  { en: "culture", fr: "culture", tr: "kültür", level: "A1", cat: "noun" },
+  { en: "cup", fr: "tasse", tr: "fincan", level: "A1", cat: "noun" },
+  { en: "customer", fr: "client", tr: "müşteri", level: "A1", cat: "noun" },
+  { en: "cut", fr: "couper", tr: "kesmek", level: "A1", cat: "verb" },
+
+  { en: "dad", fr: "papa", tr: "baba", level: "A1", cat: "noun" },
+  { en: "dance", fr: "danser / danse", tr: "dans etmek / dans", level: "A1", cat: "verb" },
+  { en: "dancer", fr: "danseur / danseuse", tr: "dansçı", level: "A1", cat: "noun" },
+  { en: "dancing", fr: "danse", tr: "dans etme", level: "A1", cat: "noun" },
+  { en: "dangerous", fr: "dangereux", tr: "tehlikeli", level: "A1", cat: "adjective" },
+  { en: "dark", fr: "sombre", tr: "karanlık", level: "A1", cat: "adjective" },
+  { en: "date", fr: "date", tr: "tarih", level: "A1", cat: "noun" },
+  { en: "daughter", fr: "fille", tr: "kız evlat", level: "A1", cat: "noun" },
+  { en: "day", fr: "jour", tr: "gün", level: "A1", cat: "noun" },
+  { en: "dear", fr: "cher / chère", tr: "sevgili / değerli", level: "A1", cat: "adjective" },
+  { en: "December", fr: "décembre", tr: "aralık", level: "A1", cat: "noun" },
+  { en: "decide", fr: "décider", tr: "karar vermek", level: "A1", cat: "verb" },
+  { en: "delicious", fr: "délicieux", tr: "lezzetli", level: "A1", cat: "adjective" },
+  { en: "describe", fr: "décrire", tr: "tanımlamak", level: "A1", cat: "verb" },
+  { en: "description", fr: "description", tr: "tanım", level: "A1", cat: "noun" },
+  { en: "design", fr: "concevoir / dessin", tr: "tasarlamak / tasarım", level: "A1", cat: "noun" },
+  { en: "desk", fr: "bureau", tr: "çalışma masası", level: "A1", cat: "noun" },
+  { en: "detail", fr: "détail", tr: "detay", level: "A1", cat: "noun" },
+  { en: "dialogue", fr: "dialogue", tr: "diyalog", level: "A1", cat: "noun" },
+  { en: "dictionary", fr: "dictionnaire", tr: "sözlük", level: "A1", cat: "noun" },
+  { en: "die", fr: "mourir", tr: "ölmek", level: "A1", cat: "verb" },
+  { en: "diet", fr: "régime", tr: "diyet", level: "A1", cat: "noun" },
+  { en: "difference", fr: "différence", tr: "fark", level: "A1", cat: "noun" },
+  { en: "different", fr: "différent", tr: "farklı", level: "A1", cat: "adjective" },
+  { en: "difficult", fr: "difficile", tr: "zor", level: "A1", cat: "adjective" },
+  { en: "dinner", fr: "dîner", tr: "akşam yemeği", level: "A1", cat: "noun" },
+  { en: "dirty", fr: "sale", tr: "kirli", level: "A1", cat: "adjective" },
+  { en: "discuss", fr: "discuter", tr: "tartışmak", level: "A1", cat: "verb" },
+  { en: "dish", fr: "plat", tr: "yemek / tabak", level: "A1", cat: "noun" },
+  { en: "do", fr: "faire", tr: "yapmak", level: "A1", cat: "verb" },
+  { en: "doctor", fr: "docteur", tr: "doktor", level: "A1", cat: "noun" },
+  { en: "dog", fr: "chien", tr: "köpek", level: "A1", cat: "noun" },
+  { en: "dollar", fr: "dollar", tr: "dolar", level: "A1", cat: "noun" },
+  { en: "door", fr: "porte", tr: "kapı", level: "A1", cat: "noun" },
+  { en: "down", fr: "en bas", tr: "aşağı", level: "A1", cat: "adverb" },
+  { en: "downstairs", fr: "en bas", tr: "alt katta", level: "A1", cat: "adverb" },
+  { en: "draw", fr: "dessiner", tr: "çizmek", level: "A1", cat: "verb" },
+  { en: "dress", fr: "robe / s'habiller", tr: "elbise / giyinmek", level: "A1", cat: "noun" },
+  { en: "drink", fr: "boire / boisson", tr: "içmek / içecek", level: "A1", cat: "verb" },
+  { en: "drive", fr: "conduire", tr: "sürmek", level: "A1", cat: "verb" },
+  { en: "driver", fr: "conducteur", tr: "sürücü", level: "A1", cat: "noun" },
+  { en: "during", fr: "pendant", tr: "boyunca", level: "A1", cat: "preposition" },
+  { en: "DVD", fr: "DVD", tr: "DVD", level: "A1", cat: "noun" },
+  { en: "each", fr: "chaque", tr: "her biri", level: "A1", cat: "determiner" },
+  { en: "ear", fr: "oreille", tr: "kulak", level: "A1", cat: "noun" },
+  { en: "early", fr: "tôt", tr: "erken", level: "A1", cat: "adjective" },
+  { en: "east", fr: "est", tr: "doğu", level: "A1", cat: "noun" },
+  { en: "easy", fr: "facile", tr: "kolay", level: "A1", cat: "adjective" },
+  { en: "eat", fr: "manger", tr: "yemek", level: "A1", cat: "verb" },
+  { en: "egg", fr: "œuf", tr: "yumurta", level: "A1", cat: "noun" },
+  { en: "eight", fr: "huit", tr: "sekiz", level: "A1", cat: "number" },
+  { en: "eighteen", fr: "dix-huit", tr: "on sekiz", level: "A1", cat: "number" },
+  { en: "eighty", fr: "quatre-vingts", tr: "seksen", level: "A1", cat: "number" },
+  { en: "elephant", fr: "éléphant", tr: "fil", level: "A1", cat: "noun" },
+  { en: "eleven", fr: "onze", tr: "on bir", level: "A1", cat: "number" },
+  { en: "else", fr: "autre", tr: "başka", level: "A1", cat: "adverb" },
+  { en: "email", fr: "email", tr: "e-posta", level: "A1", cat: "noun" },
+  { en: "end", fr: "fin / finir", tr: "son / bitirmek", level: "A1", cat: "noun" },
+  { en: "enjoy", fr: "aimer / apprécier", tr: "zevk almak", level: "A1", cat: "verb" },
+  { en: "enough", fr: "assez", tr: "yeterli", level: "A1", cat: "determiner" },
+  { en: "euro", fr: "euro", tr: "euro", level: "A1", cat: "noun" },
+
+  { en: "even", fr: "même", tr: "bile", level: "A1", cat: "adverb" },
+  { en: "evening", fr: "soirée", tr: "akşam", level: "A1", cat: "noun" },
+  { en: "event", fr: "événement", tr: "etkinlik", level: "A1", cat: "noun" },
+  { en: "ever", fr: "jamais", tr: "hiç", level: "A1", cat: "adverb" },
+  { en: "every", fr: "chaque", tr: "her", level: "A1", cat: "determiner" },
+  { en: "everybody", fr: "tout le monde", tr: "herkes", level: "A1", cat: "pronoun" },
+  { en: "everyone", fr: "tout le monde", tr: "herkes", level: "A1", cat: "pronoun" },
+  { en: "everything", fr: "tout", tr: "her şey", level: "A1", cat: "pronoun" },
+  { en: "exam", fr: "examen", tr: "sınav", level: "A1", cat: "noun" },
+  { en: "example", fr: "exemple", tr: "örnek", level: "A1", cat: "noun" },
+  { en: "excited", fr: "excité", tr: "heyecanlı", level: "A1", cat: "adjective" },
+  { en: "exciting", fr: "passionnant", tr: "heyecan verici", level: "A1", cat: "adjective" },
+  { en: "exercise", fr: "exercice / faire de l'exercice", tr: "egzersiz / egzersiz yapmak", level: "A1", cat: "noun" },
+  { en: "expensive", fr: "cher", tr: "pahalı", level: "A1", cat: "adjective" },
+  { en: "explain", fr: "expliquer", tr: "açıklamak", level: "A1", cat: "verb" },
+  { en: "extra", fr: "supplémentaire", tr: "ekstra", level: "A1", cat: "adjective" },
+  { en: "eye", fr: "œil", tr: "göz", level: "A1", cat: "noun" },
+  { en: "face", fr: "visage", tr: "yüz", level: "A1", cat: "noun" },
+  { en: "fact", fr: "fait", tr: "gerçek", level: "A1", cat: "noun" },
+  { en: "fall", fr: "tomber", tr: "düşmek", level: "A1", cat: "verb" },
+  { en: "false", fr: "faux", tr: "yanlış", level: "A1", cat: "adjective" },
+  { en: "family", fr: "famille", tr: "aile", level: "A1", cat: "noun" },
+  { en: "famous", fr: "célèbre", tr: "ünlü", level: "A1", cat: "adjective" },
+  { en: "fantastic", fr: "fantastique", tr: "harika", level: "A1", cat: "adjective" },
+  { en: "far", fr: "loin", tr: "uzak", level: "A1", cat: "adverb" },
+  { en: "farm", fr: "ferme", tr: "çiftlik", level: "A1", cat: "noun" },
+  { en: "farmer", fr: "fermier", tr: "çiftçi", level: "A1", cat: "noun" },
+  { en: "fast", fr: "rapide", tr: "hızlı", level: "A1", cat: "adjective" },
+  { en: "fat", fr: "gros", tr: "şişman", level: "A1", cat: "adjective" },
+  { en: "father", fr: "père", tr: "baba", level: "A1", cat: "noun" },
+  { en: "favourite", fr: "préféré", tr: "favori", level: "A1", cat: "adjective" },
+  { en: "February", fr: "février", tr: "şubat", level: "A1", cat: "noun" },
+  { en: "feel", fr: "sentir", tr: "hissetmek", level: "A1", cat: "verb" },
+  { en: "feeling", fr: "sentiment", tr: "his / duygu", level: "A1", cat: "noun" },
+  { en: "festival", fr: "festival", tr: "festival", level: "A1", cat: "noun" },
+  { en: "few", fr: "quelques", tr: "birkaç", level: "A1", cat: "determiner" },
+  { en: "fifteen", fr: "quinze", tr: "on beş", level: "A1", cat: "number" },
+  { en: "fifth", fr: "cinquième", tr: "beşinci", level: "A1", cat: "number" },
+  { en: "fifty", fr: "cinquante", tr: "elli", level: "A1", cat: "number" },
+  { en: "fill", fr: "remplir", tr: "doldurmak", level: "A1", cat: "verb" },
+  { en: "film", fr: "film", tr: "film", level: "A1", cat: "noun" },
+  { en: "final", fr: "final", tr: "son", level: "A1", cat: "adjective" },
+  { en: "find", fr: "trouver", tr: "bulmak", level: "A1", cat: "verb" },
+  { en: "fine", fr: "bien", tr: "iyi", level: "A1", cat: "adjective" },
+  { en: "finish", fr: "finir", tr: "bitirmek", level: "A1", cat: "verb" },
+  { en: "fire", fr: "feu", tr: "ateş", level: "A1", cat: "noun" },
+  { en: "first", fr: "premier", tr: "birinci", level: "A1", cat: "number" },
+  { en: "fish", fr: "poisson", tr: "balık", level: "A1", cat: "noun" },
+  { en: "five", fr: "cinq", tr: "beş", level: "A1", cat: "number" },
+  { en: "flat", fr: "appartement", tr: "daire", level: "A1", cat: "noun" },
+  { en: "flight", fr: "vol", tr: "uçuş", level: "A1", cat: "noun" },
+  { en: "floor", fr: "étage / sol", tr: "kat / zemin", level: "A1", cat: "noun" },
+  { en: "flower", fr: "fleur", tr: "çiçek", level: "A1", cat: "noun" },
+  { en: "fly", fr: "voler", tr: "uçmak", level: "A1", cat: "verb" },
+  { en: "follow", fr: "suivre", tr: "takip etmek", level: "A1", cat: "verb" },
+  { en: "food", fr: "nourriture", tr: "yiyecek", level: "A1", cat: "noun" },
+  { en: "foot", fr: "pied", tr: "ayak", level: "A1", cat: "noun" },
+  { en: "football", fr: "football", tr: "futbol", level: "A1", cat: "noun" },
+  { en: "for", fr: "pour", tr: "için", level: "A1", cat: "preposition" },
+  { en: "forget", fr: "oublier", tr: "unutmak", level: "A1", cat: "verb" },
+  { en: "form", fr: "forme / former", tr: "form / oluşturmak", level: "A1", cat: "noun" },
+  { en: "forty", fr: "quarante", tr: "kırk", level: "A1", cat: "number" },
+  { en: "four", fr: "quatre", tr: "dört", level: "A1", cat: "number" },
+  { en: "fourteen", fr: "quatorze", tr: "on dört", level: "A1", cat: "number" },
+  { en: "fourth", fr: "quatrième", tr: "dördüncü", level: "A1", cat: "number" },
+  { en: "free", fr: "gratuit / libre", tr: "ücretsiz / özgür", level: "A1", cat: "adjective" },
+  { en: "Friday", fr: "vendredi", tr: "cuma", level: "A1", cat: "noun" },
+  { en: "friend", fr: "ami(e)", tr: "arkadaş", level: "A1", cat: "noun" },
+  { en: "friendly", fr: "amical", tr: "samimi", level: "A1", cat: "adjective" },
+  { en: "from", fr: "de", tr: "-den / -dan", level: "A1", cat: "preposition" },
+
+  { en: "front", fr: "avant", tr: "ön", level: "A1", cat: "noun" },
+  { en: "fruit", fr: "fruit", tr: "meyve", level: "A1", cat: "noun" },
+  { en: "full", fr: "plein", tr: "dolu", level: "A1", cat: "adjective" },
+  { en: "fun", fr: "amusant", tr: "eğlence", level: "A1", cat: "noun" },
+  { en: "funny", fr: "drôle", tr: "komik", level: "A1", cat: "adjective" },
+  { en: "future", fr: "avenir", tr: "gelecek", level: "A1", cat: "noun" },
+  { en: "game", fr: "jeu", tr: "oyun", level: "A1", cat: "noun" },
+  { en: "garden", fr: "jardin", tr: "bahçe", level: "A1", cat: "noun" },
+  { en: "geography", fr: "géographie", tr: "coğrafya", level: "A1", cat: "noun" },
+  { en: "get", fr: "obtenir", tr: "almak", level: "A1", cat: "verb" },
+  { en: "girl", fr: "fille", tr: "kız", level: "A1", cat: "noun" },
+  { en: "girlfriend", fr: "petite amie", tr: "kız arkadaş", level: "A1", cat: "noun" },
+  { en: "give", fr: "donner", tr: "vermek", level: "A1", cat: "verb" },
+  { en: "glass", fr: "verre", tr: "bardak / cam", level: "A1", cat: "noun" },
+  { en: "go", fr: "aller", tr: "gitmek", level: "A1", cat: "verb" },
+  { en: "good", fr: "bon", tr: "iyi", level: "A1", cat: "adjective" },
+  { en: "goodbye", fr: "au revoir", tr: "güle güle", level: "A1", cat: "exclamation" },
+  { en: "grandfather", fr: "grand-père", tr: "büyükbaba", level: "A1", cat: "noun" },
+  { en: "grandmother", fr: "grand-mère", tr: "büyükanne", level: "A1", cat: "noun" },
+  { en: "grandparent", fr: "grand-parent", tr: "büyük ebeveyn", level: "A1", cat: "noun" },
+  { en: "great", fr: "génial", tr: "harika", level: "A1", cat: "adjective" },
+  { en: "green", fr: "vert", tr: "yeşil", level: "A1", cat: "adjective" },
+  { en: "grey", fr: "gris", tr: "gri", level: "A1", cat: "adjective" },
+  { en: "group", fr: "groupe", tr: "grup", level: "A1", cat: "noun" },
+  { en: "grow", fr: "grandir / pousser", tr: "büyümek / yetişmek", level: "A1", cat: "verb" },
+  { en: "guess", fr: "deviner", tr: "tahmin etmek", level: "A1", cat: "verb" },
+  { en: "guitar", fr: "guitare", tr: "gitar", level: "A1", cat: "noun" },
+  { en: "gym", fr: "salle de sport", tr: "spor salonu", level: "A1", cat: "noun" },
+  { en: "hair", fr: "cheveux", tr: "saç", level: "A1", cat: "noun" },
+  { en: "half", fr: "moitié", tr: "yarım", level: "A1", cat: "noun" },
+  { en: "hand", fr: "main", tr: "el", level: "A1", cat: "noun" },
+  { en: "happen", fr: "arriver / se passer", tr: "olmak / meydana gelmek", level: "A1", cat: "verb" },
+  { en: "happy", fr: "heureux", tr: "mutlu", level: "A1", cat: "adjective" },
+  { en: "hard", fr: "dur / difficile", tr: "zor / sert", level: "A1", cat: "adjective" },
+  { en: "hat", fr: "chapeau", tr: "şapka", level: "A1", cat: "noun" },
+  { en: "hate", fr: "détester", tr: "nefret etmek", level: "A1", cat: "verb" },
+  { en: "have", fr: "avoir", tr: "sahip olmak", level: "A1", cat: "verb" },
+  { en: "have to", fr: "devoir", tr: "-mek zorunda olmak", level: "A1", cat: "modal verb" },
+  { en: "he", fr: "il", tr: "o (erkek)", level: "A1", cat: "pronoun" },
+  { en: "head", fr: "tête", tr: "baş", level: "A1", cat: "noun" },
+  { en: "health", fr: "santé", tr: "sağlık", level: "A1", cat: "noun" },
+  { en: "healthy", fr: "en bonne santé", tr: "sağlıklı", level: "A1", cat: "adjective" },
+  { en: "hear", fr: "entendre", tr: "duymak", level: "A1", cat: "verb" },
+  { en: "hello", fr: "bonjour", tr: "merhaba", level: "A1", cat: "exclamation" },
+  { en: "help", fr: "aider / aide", tr: "yardım etmek / yardım", level: "A1", cat: "verb" },
+  { en: "her", fr: "elle / son / sa", tr: "onu / onun", level: "A1", cat: "pronoun" },
+  { en: "here", fr: "ici", tr: "burada", level: "A1", cat: "adverb" },
+  { en: "hey", fr: "salut", tr: "hey", level: "A1", cat: "exclamation" },
+  { en: "hi", fr: "salut", tr: "selam", level: "A1", cat: "exclamation" },
+  { en: "high", fr: "haut", tr: "yüksek", level: "A1", cat: "adjective" },
+  { en: "him", fr: "lui", tr: "onu / ona (erkek)", level: "A1", cat: "pronoun" },
+  { en: "his", fr: "son / sa", tr: "onun (erkek)", level: "A1", cat: "determiner" },
+  { en: "history", fr: "histoire", tr: "tarih", level: "A1", cat: "noun" },
+  { en: "hobby", fr: "passetemps", tr: "hobi", level: "A1", cat: "noun" },
+  { en: "holiday", fr: "vacances", tr: "tatil", level: "A1", cat: "noun" },
+  { en: "home", fr: "maison", tr: "ev", level: "A1", cat: "noun" },
+  { en: "homework", fr: "devoirs", tr: "ödev", level: "A1", cat: "noun" },
+  { en: "hope", fr: "espérer", tr: "umut etmek", level: "A1", cat: "verb" },
+  { en: "horse", fr: "cheval", tr: "at", level: "A1", cat: "noun" },
+  { en: "hospital", fr: "hôpital", tr: "hastane", level: "A1", cat: "noun" },
+  { en: "hot", fr: "chaud", tr: "sıcak", level: "A1", cat: "adjective" },
+  { en: "hotel", fr: "hôtel", tr: "otel", level: "A1", cat: "noun" },
+  { en: "hour", fr: "heure", tr: "saat", level: "A1", cat: "noun" },
+  { en: "house", fr: "maison", tr: "ev", level: "A1", cat: "noun" },
+  { en: "how", fr: "comment", tr: "nasıl", level: "A1", cat: "adverb" },
+  { en: "however", fr: "cependant", tr: "ancak", level: "A1", cat: "adverb" },
+  { en: "hundred", fr: "cent", tr: "yüz", level: "A1", cat: "number" },
+  { en: "hungry", fr: "affamé", tr: "aç", level: "A1", cat: "adjective" },
+  { en: "husband", fr: "mari", tr: "koca", level: "A1", cat: "noun" },
+  { en: "I", fr: "je", tr: "ben", level: "A1", cat: "pronoun" },
+
+  { en: "ice", fr: "glace", tr: "buz", level: "A1", cat: "noun" },
+  { en: "ice cream", fr: "crème glacée", tr: "dondurma", level: "A1", cat: "noun" },
+  { en: "idea", fr: "idée", tr: "fikir", level: "A1", cat: "noun" },
+  { en: "if", fr: "si", tr: "eğer", level: "A1", cat: "conjunction" },
+  { en: "imagine", fr: "imaginer", tr: "hayal etmek", level: "A1", cat: "verb" },
+  { en: "important", fr: "important", tr: "önemli", level: "A1", cat: "adjective" },
+  { en: "improve", fr: "améliorer", tr: "geliştirmek", level: "A1", cat: "verb" },
+  { en: "in", fr: "dans", tr: "-de, içinde", level: "A1", cat: "preposition" },
+  { en: "include", fr: "inclure", tr: "dahil etmek", level: "A1", cat: "verb" },
+  { en: "information", fr: "information", tr: "bilgi", level: "A1", cat: "noun" },
+  { en: "interest", fr: "intérêt / intéresser", tr: "ilgi / ilgilendirmek", level: "A1", cat: "noun" },
+  { en: "interested", fr: "intéressé", tr: "ilgili", level: "A1", cat: "adjective" },
+  { en: "interesting", fr: "intéressant", tr: "ilginç", level: "A1", cat: "adjective" },
+  { en: "internet", fr: "internet", tr: "internet", level: "A1", cat: "noun" },
+  { en: "interview", fr: "entretien / interviewer", tr: "röportaj / röportaj yapmak", level: "A1", cat: "noun" },
+  { en: "into", fr: "dans", tr: "-e içine", level: "A1", cat: "preposition" },
+  { en: "introduce", fr: "présenter", tr: "tanıtmak", level: "A1", cat: "verb" },
+  { en: "island", fr: "île", tr: "ada", level: "A1", cat: "noun" },
+  { en: "it", fr: "il / elle", tr: "o (cansız / hayvan)", level: "A1", cat: "pronoun" },
+  { en: "its", fr: "son / sa", tr: "onun (cansız / hayvan)", level: "A1", cat: "determiner" },
+  { en: "jacket", fr: "veste", tr: "ceket", level: "A1", cat: "noun" },
+  { en: "January", fr: "janvier", tr: "ocak", level: "A1", cat: "noun" },
+  { en: "jeans", fr: "jean", tr: "kot pantolon", level: "A1", cat: "noun" },
+  { en: "job", fr: "emploi / travail", tr: "iş", level: "A1", cat: "noun" },
+  { en: "join", fr: "rejoindre", tr: "katılmak", level: "A1", cat: "verb" },
+  { en: "journey", fr: "voyage", tr: "yolculuk", level: "A1", cat: "noun" },
+  { en: "juice", fr: "jus", tr: "meyve suyu", level: "A1", cat: "noun" },
+  { en: "July", fr: "juillet", tr: "temmuz", level: "A1", cat: "noun" },
+  { en: "June", fr: "juin", tr: "haziran", level: "A1", cat: "noun" },
+  { en: "just", fr: "juste", tr: "sadece / az önce", level: "A1", cat: "adverb" },
+  { en: "keep", fr: "garder", tr: "tutmak / saklamak", level: "A1", cat: "verb" },
+  { en: "key", fr: "clé / clé de", tr: "anahtar", level: "A1", cat: "noun" },
+  { en: "kilometre", fr: "kilomètre", tr: "kilometre", level: "A1", cat: "noun" },
+  { en: "kind", fr: "type / sorte", tr: "tür", level: "A1", cat: "noun" },
+  { en: "kitchen", fr: "cuisine", tr: "mutfak", level: "A1", cat: "noun" },
+  { en: "know", fr: "savoir / connaître", tr: "bilmek", level: "A1", cat: "verb" },
+  { en: "land", fr: "terre", tr: "kara / toprak", level: "A1", cat: "noun" },
+  { en: "language", fr: "langue", tr: "dil", level: "A1", cat: "noun" },
+  { en: "large", fr: "grand", tr: "geniş / büyük", level: "A1", cat: "adjective" },
+  { en: "last", fr: "dernier", tr: "son", level: "A1", cat: "adjective" },
+  { en: "late", fr: "en retard / tard", tr: "geç", level: "A1", cat: "adjective" },
+  { en: "later", fr: "plus tard", tr: "daha sonra", level: "A1", cat: "adverb" },
+  { en: "laugh", fr: "rire", tr: "gülmek", level: "A1", cat: "verb" },
+  { en: "learn", fr: "apprendre", tr: "öğrenmek", level: "A1", cat: "verb" },
+  { en: "leave", fr: "partir / quitter", tr: "ayrılmak / bırakmak", level: "A1", cat: "verb" },
+  { en: "left", fr: "gauche", tr: "sol", level: "A1", cat: "noun" },
+  { en: "leg", fr: "jambe", tr: "bacak", level: "A1", cat: "noun" },
+  { en: "lesson", fr: "leçon", tr: "ders", level: "A1", cat: "noun" },
+  { en: "let", fr: "laisser", tr: "izin vermek", level: "A1", cat: "verb" },
+  { en: "letter", fr: "lettre", tr: "mektup", level: "A1", cat: "noun" },
+  { en: "library", fr: "bibliothèque", tr: "kütüphane", level: "A1", cat: "noun" },
+  { en: "lie", fr: "mentir", tr: "yalan söylemek", level: "A1", cat: "verb" },
+  { en: "life", fr: "vie", tr: "hayat", level: "A1", cat: "noun" },
+  { en: "light", fr: "lumière / léger", tr: "ışık / hafif", level: "A1", cat: "noun" },
+  { en: "like", fr: "comme", tr: "gibi", level: "A1", cat: "preposition" },
+  { en: "like", fr: "aimer", tr: "sevmek", level: "A1", cat: "verb" },
+  { en: "line", fr: "ligne", tr: "çizgi / sıra", level: "A1", cat: "noun" },
+  { en: "lion", fr: "lion", tr: "aslan", level: "A1", cat: "noun" },
+  { en: "list", fr: "liste", tr: "liste", level: "A1", cat: "noun" },
+  { en: "listen", fr: "écouter", tr: "dinlemek", level: "A1", cat: "verb" },
+  { en: "little", fr: "petit / peu", tr: "az / küçük", level: "A1", cat: "adjective" },
+  { en: "live", fr: "vivre / habiter", tr: "yaşamak", level: "A1", cat: "verb" },
+  { en: "local", fr: "local", tr: "yerel", level: "A1", cat: "adjective" },
+  { en: "long", fr: "long", tr: "uzun", level: "A1", cat: "adjective" },
+  { en: "look", fr: "regarder", tr: "bakmak", level: "A1", cat: "verb" },
+  { en: "lose", fr: "perdre", tr: "kaybetmek", level: "A1", cat: "verb" },
+  { en: "lot", fr: "beaucoup", tr: "çok", level: "A1", cat: "pronoun" },
+  { en: "love", fr: "amour / aimer", tr: "aşk / sevmek", level: "A1", cat: "verb" },
+  { en: "lunch", fr: "déjeuner", tr: "öğle yemeği", level: "A1", cat: "noun" },
+
+  { en: "machine", fr: "la machine", tr: "makine", level: "A1", cat: "noun" },
+  { en: "magazine", fr: "le magazine", tr: "dergi", level: "A1", cat: "noun" },
+  { en: "main", fr: "principal", tr: "ana", level: "A1", cat: "adjective" },
+  { en: "make", fr: "faire", tr: "yapmak", level: "A1", cat: "verb" },
+  { en: "man", fr: "l'homme", tr: "adam", level: "A1", cat: "noun" },
+  { en: "many", fr: "beaucoup de", tr: "çok", level: "A1", cat: "determiner" },
+  { en: "map", fr: "la carte", tr: "harita", level: "A1", cat: "noun" },
+  { en: "March", fr: "mars", tr: "mart", level: "A1", cat: "noun" },
+  { en: "market", fr: "le marché", tr: "pazar", level: "A1", cat: "noun" },
+  { en: "married", fr: "marié", tr: "evli", level: "A1", cat: "adjective" },
+  { en: "match", fr: "le match / correspondre", tr: "maç / eşleşmek", level: "A1", cat: "noun" },
+  { en: "May", fr: "mai", tr: "mayıs", level: "A1", cat: "noun" },
+  { en: "maybe", fr: "peut-être", tr: "belki", level: "A1", cat: "adverb" },
+  { en: "me", fr: "moi", tr: "beni / bana", level: "A1", cat: "pronoun" },
+  { en: "meal", fr: "le repas", tr: "öğün", level: "A1", cat: "noun" },
+  { en: "mean", fr: "vouloir dire", tr: "anlamına gelmek", level: "A1", cat: "verb" },
+  { en: "meaning", fr: "la signification", tr: "anlam", level: "A1", cat: "noun" },
+  { en: "meat", fr: "la viande", tr: "et", level: "A1", cat: "noun" },
+  { en: "meet", fr: "rencontrer", tr: "buluşmak / tanışmak", level: "A1", cat: "verb" },
+  { en: "meeting", fr: "la réunion", tr: "toplantı", level: "A1", cat: "noun" },
+  { en: "member", fr: "le membre", tr: "üye", level: "A1", cat: "noun" },
+  { en: "menu", fr: "le menu", tr: "menü", level: "A1", cat: "noun" },
+  { en: "message", fr: "le message", tr: "mesaj", level: "A1", cat: "noun" },
+  { en: "metre", fr: "le mètre", tr: "metre", level: "A1", cat: "noun" },
+  { en: "midnight", fr: "minuit", tr: "gece yarısı", level: "A1", cat: "noun" },
+  { en: "mile", fr: "le mile", tr: "mil", level: "A1", cat: "noun" },
+  { en: "milk", fr: "le lait", tr: "süt", level: "A1", cat: "noun" },
+  { en: "million", fr: "un million", tr: "bir milyon", level: "A1", cat: "number" },
+  { en: "minute", fr: "la minute", tr: "dakika", level: "A1", cat: "noun" },
+  { en: "miss", fr: "manquer", tr: "özlemek / kaçırmak", level: "A1", cat: "verb" },
+  { en: "mistake", fr: "l'erreur", tr: "hata", level: "A1", cat: "noun" },
+  { en: "model", fr: "le modèle", tr: "model", level: "A1", cat: "noun" },
+  { en: "modern", fr: "moderne", tr: "modern", level: "A1", cat: "adjective" },
+  { en: "moment", fr: "le moment", tr: "an", level: "A1", cat: "noun" },
+  { en: "Monday", fr: "lundi", tr: "pazartesi", level: "A1", cat: "noun" },
+  { en: "money", fr: "l'argent", tr: "para", level: "A1", cat: "noun" },
+  { en: "month", fr: "le mois", tr: "ay", level: "A1", cat: "noun" },
+  { en: "more", fr: "plus", tr: "daha fazla", level: "A1", cat: "determiner" },
+  { en: "morning", fr: "le matin", tr: "sabah", level: "A1", cat: "noun" },
+  { en: "most", fr: "le plus", tr: "en çok", level: "A1", cat: "determiner" },
+  { en: "mother", fr: "la mère", tr: "anne", level: "A1", cat: "noun" },
+  { en: "mountain", fr: "la montagne", tr: "dağ", level: "A1", cat: "noun" },
+  { en: "mouse", fr: "la souris", tr: "fare", level: "A1", cat: "noun" },
+  { en: "mouth", fr: "la bouche", tr: "ağız", level: "A1", cat: "noun" },
+  { en: "move", fr: "bouger / déménager", tr: "hareket etmek / taşınmak", level: "A1", cat: "verb" },
+  { en: "movie", fr: "le film", tr: "film", level: "A1", cat: "noun" },
+  { en: "much", fr: "beaucoup de", tr: "çok", level: "A1", cat: "determiner" },
+  { en: "mum", fr: "maman", tr: "anne", level: "A1", cat: "noun" },
+  { en: "museum", fr: "le musée", tr: "müze", level: "A1", cat: "noun" },
+  { en: "music", fr: "la musique", tr: "müzik", level: "A1", cat: "noun" },
+  { en: "must", fr: "devoir", tr: "-meli / -malı", level: "A1", cat: "modal verb" },
+  { en: "my", fr: "mon / ma / mes", tr: "benim", level: "A1", cat: "determiner" },
+  { en: "name", fr: "le nom", tr: "isim", level: "A1", cat: "noun" },
+  { en: "natural", fr: "naturel", tr: "doğal", level: "A1", cat: "adjective" },
+  { en: "near", fr: "près de", tr: "yakınında", level: "A1", cat: "preposition" },
+  { en: "need", fr: "avoir besoin de", tr: "ihtiyacı olmak", level: "A1", cat: "verb" },
+  { en: "negative", fr: "négatif", tr: "olumsuz", level: "A1", cat: "adjective" },
+  { en: "neighbour", fr: "le voisin / la voisine", tr: "komşu", level: "A1", cat: "noun" },
+  { en: "never", fr: "jamais", tr: "asla", level: "A1", cat: "adverb" },
+  { en: "new", fr: "nouveau / nouvelle", tr: "yeni", level: "A1", cat: "adjective" },
+  { en: "news", fr: "les nouvelles", tr: "haberler", level: "A1", cat: "noun" },
+  { en: "newspaper", fr: "le journal", tr: "gazete", level: "A1", cat: "noun" },
+  { en: "next", fr: "prochain", tr: "sonraki", level: "A1", cat: "adjective" },
+  { en: "next to", fr: "à côté de", tr: "yanında", level: "A1", cat: "preposition" },
+  { en: "nice", fr: "sympa", tr: "güzel / hoş", level: "A1", cat: "adjective" },
+  { en: "night", fr: "la nuit", tr: "gece", level: "A1", cat: "noun" },
+  { en: "nine", fr: "neuf", tr: "dokuz", level: "A1", cat: "number" },
+  { en: "nineteen", fr: "dix-neuf", tr: "on dokuz", level: "A1", cat: "number" },
+  { en: "ninety", fr: "quatre-vingt-dix", tr: "doksan", level: "A1", cat: "number" },
+  { en: "no", fr: "non", tr: "hayır", level: "A1", cat: "exclamation" },
+
+  { en: "no one", fr: "personne", tr: "hiç kimse", level: "A1", cat: "pronoun" },
+  { en: "nobody", fr: "personne", tr: "hiç kimse", level: "A1", cat: "pronoun" },
+  { en: "north", fr: "le nord", tr: "kuzey", level: "A1", cat: "noun" },
+  { en: "nose", fr: "le nez", tr: "burun", level: "A1", cat: "noun" },
+  { en: "not", fr: "ne... pas", tr: "değil", level: "A1", cat: "adverb" },
+  { en: "note", fr: "la note", tr: "not", level: "A1", cat: "noun" },
+  { en: "nothing", fr: "rien", tr: "hiçbir şey", level: "A1", cat: "pronoun" },
+  { en: "November", fr: "novembre", tr: "kasım", level: "A1", cat: "noun" },
+  { en: "now", fr: "maintenant", tr: "şimdi", level: "A1", cat: "adverb" },
+  { en: "number", fr: "le numéro", tr: "sayı / numara", level: "A1", cat: "noun" },
+  { en: "nurse", fr: "l'infirmier / l'infirmière", tr: "hemşire", level: "A1", cat: "noun" },
+  { en: "object", fr: "l'objet", tr: "nesne", level: "A1", cat: "noun" },
+  { en: "o’clock", fr: "heures", tr: "saat", level: "A1", cat: "adverb" },
+  { en: "October", fr: "octobre", tr: "ekim", level: "A1", cat: "noun" },
+  { en: "of", fr: "de", tr: "-ın, -in", level: "A1", cat: "preposition" },
+  { en: "off", fr: "éteint / hors de", tr: "kapalı / dışında", level: "A1", cat: "adverb" },
+  { en: "office", fr: "le bureau", tr: "ofis", level: "A1", cat: "noun" },
+  { en: "often", fr: "souvent", tr: "sık sık", level: "A1", cat: "adverb" },
+  { en: "oh", fr: "oh", tr: "aa / vay", level: "A1", cat: "exclamation" },
+  { en: "OK", fr: "d'accord", tr: "tamam", level: "A1", cat: "exclamation" },
+  { en: "old", fr: "vieux / vieille", tr: "yaşlı / eski", level: "A1", cat: "adjective" },
+  { en: "on", fr: "sur", tr: "üzerinde", level: "A1", cat: "preposition" },
+  { en: "once", fr: "une fois", tr: "bir kez", level: "A1", cat: "adverb" },
+  { en: "one", fr: "un / une", tr: "bir", level: "A1", cat: "number" },
+  { en: "onion", fr: "l'oignon", tr: "soğan", level: "A1", cat: "noun" },
+  { en: "online", fr: "en ligne", tr: "çevrimiçi", level: "A1", cat: "adjective" },
+  { en: "only", fr: "seulement", tr: "sadece", level: "A1", cat: "adverb" },
+  { en: "open", fr: "ouvert / ouvrir", tr: "açık / açmak", level: "A1", cat: "verb" },
+  { en: "opinion", fr: "l'opinion", tr: "görüş / fikir", level: "A1", cat: "noun" },
+  { en: "opposite", fr: "en face de / l'opposé", tr: "karşı / zıt", level: "A1", cat: "preposition" },
+  { en: "or", fr: "ou", tr: "veya", level: "A1", cat: "conjunction" },
+  { en: "orange", fr: "l'orange", tr: "portakal / turuncu", level: "A1", cat: "noun" },
+  { en: "order", fr: "la commande / commander", tr: "sipariş / sipariş vermek", level: "A1", cat: "noun" },
+  { en: "other", fr: "autre", tr: "diğer", level: "A1", cat: "adjective" },
+  { en: "our", fr: "notre / nos", tr: "bizim", level: "A1", cat: "determiner" },
+  { en: "out", fr: "dehors", tr: "dışarı", level: "A1", cat: "adverb" },
+  { en: "outside", fr: "à l'extérieur", tr: "dışarıda", level: "A1", cat: "adverb" },
+  { en: "over", fr: "au-dessus de", tr: "üzerinden", level: "A1", cat: "preposition" },
+  { en: "own", fr: "propre", tr: "kendi", level: "A1", cat: "adjective" },
+  { en: "page", fr: "la page", tr: "sayfa", level: "A1", cat: "noun" },
+  { en: "paint", fr: "peindre / la peinture", tr: "boyamak / boya", level: "A1", cat: "verb" },
+  { en: "painting", fr: "le tableau / la peinture", tr: "resim / tablo", level: "A1", cat: "noun" },
+  { en: "pair", fr: "la paire", tr: "çift", level: "A1", cat: "noun" },
+  { en: "paper", fr: "le papier", tr: "kağıt", level: "A1", cat: "noun" },
+  { en: "paragraph", fr: "le paragraphe", tr: "paragraf", level: "A1", cat: "noun" },
+  { en: "parent", fr: "le parent", tr: "ebeveyn", level: "A1", cat: "noun" },
+  { en: "park", fr: "le parc / se garer", tr: "park / park etmek", level: "A1", cat: "noun" },
+  { en: "part", fr: "la partie", tr: "parça / bölüm", level: "A1", cat: "noun" },
+  { en: "partner", fr: "le partenaire", tr: "partner / eş", level: "A1", cat: "noun" },
+  { en: "party", fr: "la fête", tr: "parti", level: "A1", cat: "noun" },
+  { en: "passport", fr: "le passeport", tr: "pasaport", level: "A1", cat: "noun" },
+  { en: "past", fr: "le passé / après", tr: "geçmiş / -den sonra", level: "A1", cat: "noun" },
+  { en: "pay", fr: "payer", tr: "ödemek", level: "A1", cat: "verb" },
+  { en: "pen", fr: "le stylo", tr: "kalem", level: "A1", cat: "noun" },
+  { en: "pencil", fr: "le crayon", tr: "kurşun kalem", level: "A1", cat: "noun" },
+  { en: "people", fr: "les gens", tr: "insanlar", level: "A1", cat: "noun" },
+  { en: "pepper", fr: "le poivre", tr: "biber", level: "A1", cat: "noun" },
+  { en: "perfect", fr: "parfait", tr: "mükemmel", level: "A1", cat: "adjective" },
+  { en: "period", fr: "la période", tr: "dönem", level: "A1", cat: "noun" },
+  { en: "person", fr: "la personne", tr: "kişi", level: "A1", cat: "noun" },
+  { en: "personal", fr: "personnel", tr: "kişisel", level: "A1", cat: "adjective" },
+  { en: "phone", fr: "le téléphone / téléphoner", tr: "telefon / telefon etmek", level: "A1", cat: "noun" },
+  { en: "photo", fr: "la photo", tr: "fotoğraf", level: "A1", cat: "noun" },
+  { en: "photograph", fr: "la photographie", tr: "fotoğraf", level: "A1", cat: "noun" },
+  { en: "phrase", fr: "la phrase", tr: "ifade / deyim", level: "A1", cat: "noun" },
+  { en: "piano", fr: "le piano", tr: "piyano", level: "A1", cat: "noun" },
+  { en: "picture", fr: "l'image", tr: "resim", level: "A1", cat: "noun" },
+  { en: "piece", fr: "le morceau", tr: "parça", level: "A1", cat: "noun" },
+  { en: "pig", fr: "le cochon", tr: "domuz", level: "A1", cat: "noun" },
+  { en: "pink", fr: "rose", tr: "pembe", level: "A1", cat: "adjective" },
+
+  { en: "place", fr: "le lieu / l'endroit", tr: "yer", level: "A1", cat: "noun" },
+  { en: "plan", fr: "le plan / planifier", tr: "plan / planlamak", level: "A1", cat: "noun" },
+  { en: "plane", fr: "l'avion", tr: "uçak", level: "A1", cat: "noun" },
+  { en: "plant", fr: "la plante", tr: "bitki", level: "A1", cat: "noun" },
+  { en: "play", fr: "jouer / le jeu", tr: "oynamak / oyun", level: "A1", cat: "verb" },
+  { en: "player", fr: "le joueur / la joueuse", tr: "oyuncu", level: "A1", cat: "noun" },
+  { en: "please", fr: "s'il vous plaît", tr: "lütfen", level: "A1", cat: "exclamation" },
+  { en: "point", fr: "le point", tr: "nokta", level: "A1", cat: "noun" },
+  { en: "police", fr: "la police", tr: "polis", level: "A1", cat: "noun" },
+  { en: "policeman", fr: "le policier", tr: "polis memuru", level: "A1", cat: "noun" },
+  { en: "pool", fr: "la piscine", tr: "havuz", level: "A1", cat: "noun" },
+  { en: "poor", fr: "pauvre", tr: "fakir", level: "A1", cat: "adjective" },
+  { en: "popular", fr: "populaire", tr: "popüler", level: "A1", cat: "adjective" },
+  { en: "positive", fr: "positif", tr: "olumlu", level: "A1", cat: "adjective" },
+  { en: "possible", fr: "possible", tr: "mümkün", level: "A1", cat: "adjective" },
+  { en: "post", fr: "le courrier / poster", tr: "posta / postalamak", level: "A1", cat: "noun" },
+  { en: "potato", fr: "la pomme de terre", tr: "patates", level: "A1", cat: "noun" },
+  { en: "pound", fr: "la livre", tr: "sterlin", level: "A1", cat: "noun" },
+  { en: "practice", fr: "la pratique", tr: "alıştırma", level: "A1", cat: "noun" },
+  { en: "practise", fr: "s'exercer / pratiquer", tr: "pratik yapmak", level: "A1", cat: "verb" },
+  { en: "prefer", fr: "préférer", tr: "tercih etmek", level: "A1", cat: "verb" },
+  { en: "prepare", fr: "préparer", tr: "hazırlamak", level: "A1", cat: "verb" },
+  { en: "present", fr: "le cadeau / présent", tr: "hediye / mevcut", level: "A1", cat: "noun" },
+  { en: "pretty", fr: "joli / assez", tr: "güzel / oldukça", level: "A1", cat: "adjective" },
+  { en: "price", fr: "le prix", tr: "fiyat", level: "A1", cat: "noun" },
+  { en: "probably", fr: "probablement", tr: "muhtemelen", level: "A1", cat: "adverb" },
+  { en: "problem", fr: "le problème", tr: "sorun", level: "A1", cat: "noun" },
+  { en: "product", fr: "le produit", tr: "ürün", level: "A1", cat: "noun" },
+  { en: "programme", fr: "le programme", tr: "program", level: "A1", cat: "noun" },
+  { en: "project", fr: "le projet", tr: "proje", level: "A1", cat: "noun" },
+  { en: "purple", fr: "violet", tr: "mor", level: "A1", cat: "adjective" },
+  { en: "put", fr: "mettre", tr: "koymak", level: "A1", cat: "verb" },
+  { en: "quarter", fr: "le quart", tr: "çeyrek", level: "A1", cat: "noun" },
+  { en: "question", fr: "la question", tr: "soru", level: "A1", cat: "noun" },
+  { en: "quick", fr: "rapide", tr: "hızlı", level: "A1", cat: "adjective" },
+  { en: "quickly", fr: "rapidement", tr: "hızlıca", level: "A1", cat: "adverb" },
+  { en: "quiet", fr: "calme / tranquille", tr: "sessiz", level: "A1", cat: "adjective" },
+  { en: "quite", fr: "assez / plutôt", tr: "oldukça", level: "A1", cat: "adverb" },
+  { en: "radio", fr: "la radio", tr: "radyo", level: "A1", cat: "noun" },
+  { en: "rain", fr: "la pluie / pleuvoir", tr: "yağmur / yağmak", level: "A1", cat: "noun" },
+  { en: "read", fr: "lire", tr: "okumak", level: "A1", cat: "verb" },
+  { en: "reader", fr: "le lecteur / la lectrice", tr: "okuyucu", level: "A1", cat: "noun" },
+  { en: "reading", fr: "la lecture", tr: "okuma", level: "A1", cat: "noun" },
+  { en: "ready", fr: "prêt / prête", tr: "hazır", level: "A1", cat: "adjective" },
+  { en: "real", fr: "réel", tr: "gerçek", level: "A1", cat: "adjective" },
+  { en: "really", fr: "vraiment", tr: "gerçekten", level: "A1", cat: "adverb" },
+  { en: "reason", fr: "la raison", tr: "sebep", level: "A1", cat: "noun" },
+  { en: "red", fr: "rouge", tr: "kırmızı", level: "A1", cat: "adjective" },
+  { en: "relax", fr: "se détendre", tr: "dinlenmek", level: "A1", cat: "verb" },
+  { en: "remember", fr: "se souvenir", tr: "hatırlamak", level: "A1", cat: "verb" },
+  { en: "repeat", fr: "répéter", tr: "tekrarlamak", level: "A1", cat: "verb" },
+  { en: "report", fr: "le rapport", tr: "rapor", level: "A1", cat: "noun" },
+  { en: "restaurant", fr: "le restaurant", tr: "restoran", level: "A1", cat: "noun" },
+  { en: "result", fr: "le résultat", tr: "sonuç", level: "A1", cat: "noun" },
+  { en: "return", fr: "retourner / le retour", tr: "geri dönmek / dönüş", level: "A1", cat: "verb" },
+  { en: "rice", fr: "le riz", tr: "pirinç", level: "A1", cat: "noun" },
+  { en: "rich", fr: "riche", tr: "zengin", level: "A1", cat: "adjective" },
+  { en: "ride", fr: "monter / faire du vélo", tr: "binmek / sürmek", level: "A1", cat: "verb" },
+  { en: "right", fr: "droit / juste", tr: "sağ / doğru", level: "A1", cat: "adjective" },
+  { en: "river", fr: "la rivière / le fleuve", tr: "nehir", level: "A1", cat: "noun" },
+  { en: "road", fr: "la route", tr: "yol", level: "A1", cat: "noun" },
+  { en: "room", fr: "la pièce / la chambre", tr: "oda", level: "A1", cat: "noun" },
+  { en: "routine", fr: "la routine", tr: "rutin", level: "A1", cat: "noun" },
+  { en: "rule", fr: "la règle", tr: "kural", level: "A1", cat: "noun" },
+  { en: "run", fr: "courir", tr: "koşmak", level: "A1", cat: "verb" },
+  { en: "sad", fr: "triste", tr: "üzgün", level: "A1", cat: "adjective" },
+  { en: "salad", fr: "la salade", tr: "salata", level: "A1", cat: "noun" },
+  { en: "salt", fr: "le sel", tr: "tuz", level: "A1", cat: "noun" },
+  { en: "same", fr: "le même / la même", tr: "aynı", level: "A1", cat: "adjective" },
+  { en: "sandwich", fr: "le sandwich", tr: "sandviç", level: "A1", cat: "noun" },
+
+
+];
+
+let currentWord = {};
+
+function onCategoryChange() {
+  const selectedCategory = document.getElementById("categorySelect").value;
+  const filtered = selectedCategory ? words.filter(w => w.cat === selectedCategory) : words;
+
+  // Sadece sayı yaz
+  document.getElementById("wordCountDisplay").textContent = filtered.length;
+
+  // Yeni soru gelsin
+  newQuestion();
+
+  // Buton görünür olsun
+  document.getElementById("newQuestionBtn").style.display = "inline-block";
+}
+
+
+
+
+function getFilteredWords() {
+  const selectedCategory = document.getElementById("categorySelect").value;
+  return words.filter(w => w.cat === selectedCategory);
+}
+
+function newQuestion() {
+  const wordList = getFilteredWords();
+  const selectedDirection = document.getElementById("languageDirectionSelect").value;
+
+  currentWord = wordList[Math.floor(Math.random() * wordList.length)];
+
+  let question = "";
+  let correctAnswer = "";
+  let allAnswers = [];
+
+  if (selectedDirection === "fr-tr") {
+    question = currentWord.fr;
+    correctAnswer = currentWord.tr;
+    allAnswers = wordList.map(w => w.tr);
+    playPronunciation(currentWord.fr);
+
+  } else if (selectedDirection === "en-fr") {
+    question = currentWord.en;
+    correctAnswer = currentWord.fr;
+    allAnswers = wordList.map(w => w.fr);
+    playPronunciation(currentWord.fr); // yine Fransızca okunsun
+
+  } else if (selectedDirection === "en-tr") {
+    question = currentWord.en;
+    correctAnswer = currentWord.tr;
+    allAnswers = wordList.map(w => w.tr);
+    playPronunciation(currentWord.en); // İngilizce okunsun istersen
+  }
+
+  // Soruyu göster
+  document.getElementById("frWord").textContent = question;
+
+  // Doğru + 3 yanlış olacak şekilde seçenekler
+  let options = [correctAnswer];
+  while (options.length < 4) {
+    const rand = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+    if (!options.includes(rand)) {
+      options.push(rand);
+    }
+  }
+
+  options.sort(() => Math.random() - 0.5);
+
+  // Şıkları oluştur
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("div");
+    btn.className = "option";
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(btn, opt);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+
+function checkAnswer(button, selectedOption) {
+  const direction = document.getElementById("languageDirectionSelect").value;
+  let correctAnswer;
+
+  if (direction === "fr-tr") {
+    correctAnswer = currentWord.tr;
+  } else if (direction === "en-fr") {
+    correctAnswer = currentWord.fr;
+  } else if (direction === "en-tr") {
+    correctAnswer = currentWord.tr;
+  }
+
+  if (selectedOption === correctAnswer) {
+    button.classList.add("correct");
+    document.getElementById("correctSound").play();
+  } else {
+    button.classList.add("wrong");
+    document.getElementById("wrongSound").play();
+
+    const allOptions = document.querySelectorAll(".option");
+    allOptions.forEach(opt => {
+      if (opt.textContent === correctAnswer) {
+        opt.classList.add("correct");
+      }
+    });
+  }
+
+  // Tüm seçenekleri pasifleştir
+  document.querySelectorAll(".option").forEach(opt => opt.classList.add("disabled"));
+
+  // Yeni Soru butonunu göster
+  document.getElementById("newQuestionBtn").style.display = "block";
+}
+
+
+function playPronunciation(text) {
+  const audio = document.getElementById("pronounceAudio");
+  audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fr&client=tw-ob`;
+  audio.play();
+}
+</script>
+</body>
+</html>
